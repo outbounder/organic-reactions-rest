@@ -6,6 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "organic-alchemy": "https://github.com/outbounder/organic-alchemy/archive/master.tar.gz"
   },
   "devDependencies": {
     "jasmine-node": "latest"

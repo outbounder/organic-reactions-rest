@@ -1,4 +1,5 @@
 var url_parser = require("url")
+var invoke = require("organic-alchemy").http.invoke
 
 var createUrlParamsExtractor = function(url){
   url = url_parser.parse(url).path
@@ -22,7 +23,7 @@ var createUrlParamsExtractor = function(url){
 
 /*
   supports input in form: 
-  Object({
+  Object(base_url, {
     "GET /url": Reaction,
     "POST /url": Reaction,
     "PUT /url": Reaction,
@@ -50,6 +51,8 @@ var fromActions = module.exports.fromActions = function(base_url, actions) {
     var request_url = c.req.url;
     if(base_url)
       request_url = request_url.replace(base_url, "")
+
+    // confusing?
     next.reaction = function(name){
       var url_params;
       if(reactions[name].url && reactions[name].url.exec)
@@ -71,11 +74,7 @@ var fromActions = module.exports.fromActions = function(base_url, actions) {
 
         if(reaction.url && reaction.url.exec && url_params)
           c.req.params = url_params
-
-        if(reaction.length == 2)
-          return reaction(c, next)
-        if(reaction.length == 3)
-          return reaction(c.req, c.res, next)
+        invoke(reaction, c, next)
       }
     }
     next()
