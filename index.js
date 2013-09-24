@@ -74,7 +74,7 @@ var fromActions = module.exports.fromActions = function(base_url, actions) {
 
         if(reaction.url && reaction.url.exec && url_params)
           c.req.params = url_params
-        invoke(reaction, c, next)
+        return invoke(reaction, c, next)
       }
     }
     next()
